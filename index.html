@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>YouTube Fullscreen Embed</title>
+<style>
+html,body{
+  margin:0;
+  height:100%;
+  background:#000;
+  overflow:hidden;
+}
+iframe{
+  position:fixed;
+  inset:0;
+  width:100vw;
+  height:100vh;
+  border:0;
+}
+video{
+  object-fit:cover!important;
+}
+</style>
+</head>
+<body>
+
+<iframe id="player"
+allow="autoplay; fullscreen"
+allowfullscreen>
+</iframe>
+
+<script>
+const DEFAULT_ID = "-JhoMGoAfFc";
+const DEFAULT_PARAMS = "autoplay=1&modestbranding=1&fs=0&rel=0&showinfo=0";
+
+function getVideoInput() {
+  const params = new URLSearchParams(location.search);
+  let v = params.get("v");
+  if (!v) return { id: DEFAULT_ID, query: DEFAULT_PARAMS };
+
+  if (v.includes("?")) {
+    const [id, query] = v.split("?");
+    return { id, query };
+  }
+  return { id: v, query: DEFAULT_PARAMS };
+}
+
+const { id, query } = getVideoInput();
+document.getElementById("player").src =
+  `https://www.youtube.com/embed/${id}?${query}`;
+</script>
+
+</body>
+</html>
