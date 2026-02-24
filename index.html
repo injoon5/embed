@@ -11,11 +11,15 @@ html,body{
   background:#000;
   overflow:hidden;
 }
-iframe{
+#player{
   position:fixed;
   inset:0;
   width:100vw;
   height:100vh;
+}
+iframe{
+  width:100%;
+  height:100%;
   border:0;
 }
 video{
@@ -25,30 +29,41 @@ video{
 </head>
 <body>
 
-<iframe id="player"
-allow="autoplay; fullscreen"
-allowfullscreen>
-</iframe>
+<div id="player"></div>
 
 <script>
 const DEFAULT_ID = "-JhoMGoAfFc";
-const DEFAULT_PARAMS = "autoplay=1&modestbranding=1&fs=0&rel=0&showinfo=0";
 
-function getVideoInput() {
-  const params = new URLSearchParams(location.search);
-  let v = params.get("v");
-  if (!v) return { id: DEFAULT_ID, query: DEFAULT_PARAMS };
-
-  if (v.includes("?")) {
-    const [id, query] = v.split("?");
-    return { id, query };
-  }
-  return { id: v, query: DEFAULT_PARAMS };
+function getVideoId(){
+  const p = new URLSearchParams(location.search);
+  let v = p.get("v");
+  if(!v) return DEFAULT_ID;
+  return v.split("?")[0];
 }
 
-const { id, query } = getVideoInput();
-document.getElementById("player").src =
-  `https://www.youtube.com/embed/${id}?${query}`;
+const tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+document.head.appendChild(tag);
+
+let player;
+
+function onYouTubeIframeAPIReady(){
+  player = new YT.Player('player',{
+    videoId: getVideoId(),
+    playerVars:{
+      autoplay:1,
+      modestbranding:1,
+      rel:0,
+      fs:0
+    },
+    events:{
+      onReady: function(event){
+        event.target.setPlaybackQuality('highres');
+        event.target.playVideo();
+      }
+    }
+  });
+}
 </script>
 
 </body>
