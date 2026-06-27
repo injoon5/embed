@@ -7,10 +7,10 @@ Vibe coded with ChatGPT.
 ## Usage
 
 with a video ID:
-`https://e.ij5.dev/?v=dQw4w9WgXcQ`
+`https://e.ij5.dev/?v=RVvYQghFCXk`
 
 With additional query parameters:
-`https://e.ij5.dev/?v=dQw4w9WgXcQ?autoplay=1&rel=0`
+`https://e.ij5.dev/?v=RVvYQghFCXk?autoplay=1&rel=0`
 
 
 ## Notes
